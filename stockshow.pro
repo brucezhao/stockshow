@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,8 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        dlgmain.cpp
+        dlgmain.cpp \
+    stockparser.cpp
 
-HEADERS  += dlgmain.h
+HEADERS  += dlgmain.h \
+    stockparser.h
 
 FORMS    += dlgmain.ui
+
+RESOURCES += \
+    stockshow.qrc

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/close_32.png</file>
+        <file>image/add_list.png</file>
+        <file>image/Delete.png</file>
+        <file>image/setting.png</file>
+    </qresource>
+</RCC>
