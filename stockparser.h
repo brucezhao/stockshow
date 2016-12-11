@@ -51,6 +51,7 @@ enum FieldIndex {
 //股票信息结构体
 struct Stock {
     string code;
+    float increase; //涨幅
     vector<string> datas;
 };
 

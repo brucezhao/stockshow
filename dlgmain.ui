@@ -58,7 +58,13 @@
          <number>5</number>
         </property>
         <item>
-         <widget class="QToolButton" name="toolButton_2">
+         <widget class="QToolButton" name="tbOption">
+          <property name="maximumSize">
+           <size>
+            <width>24</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="toolTip">
            <string>设置</string>
           </property>
@@ -87,7 +93,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolButton_3">
+         <widget class="QToolButton" name="tbAdd">
           <property name="toolTip">
            <string>添加股票</string>
           </property>
@@ -110,7 +116,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolButton_4">
+         <widget class="QToolButton" name="tbDelete">
           <property name="toolTip">
            <string>删除股票</string>
           </property>
@@ -203,7 +209,7 @@ selection-color: rgb(0, 0, 0);</string>
         <enum>Qt::SolidLine</enum>
        </property>
        <property name="sortingEnabled">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>70</number>
@@ -223,6 +229,11 @@ selection-color: rgb(0, 0, 0);</string>
        <attribute name="verticalHeaderHighlightSections">
         <bool>false</bool>
        </attribute>
+       <column>
+        <property name="text">
+         <string>code</string>
+        </property>
+       </column>
        <column>
         <property name="text">
          <string>股票代码</string>
@@ -247,7 +258,7 @@ selection-color: rgb(0, 0, 0);</string>
      </item>
      <item>
       <widget class="QWidget" name="wStatusbar" native="true">
-       <layout class="QGridLayout" name="gridLayout_2">
+       <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,5,1,5">
         <property name="leftMargin">
          <number>5</number>
         </property>
@@ -263,20 +274,8 @@ selection-color: rgb(0, 0, 0);</string>
         <property name="spacing">
          <number>0</number>
         </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="font">
-           <font>
-            <pointsize>8</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>上证指数：</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="1">
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="lbSHIndex">
           <property name="minimumSize">
            <size>
             <width>80</width>
@@ -288,38 +287,10 @@ selection-color: rgb(0, 0, 0);</string>
             <pointsize>8</pointsize>
            </font>
           </property>
-          <property name="text">
-           <string>1234</string>
-          </property>
          </widget>
-        </item>
-        <item row="0" column="2">
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>14</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
         </item>
         <item row="0" column="3">
-         <widget class="QLabel" name="label_3">
-          <property name="font">
-           <font>
-            <pointsize>8</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>深圳成指：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="4">
-         <widget class="QLabel" name="label_5">
+         <widget class="QLabel" name="lbSZIndex">
           <property name="minimumSize">
            <size>
             <width>100</width>
@@ -332,7 +303,31 @@ selection-color: rgb(0, 0, 0);</string>
            </font>
           </property>
           <property name="text">
-           <string>1234</string>
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_2">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>沪指：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>深成指：</string>
           </property>
          </widget>
         </item>

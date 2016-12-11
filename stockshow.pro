@@ -14,12 +14,18 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         dlgmain.cpp \
-    stockparser.cpp
+    stockparser.cpp \
+    dlgaddstock.cpp \
+    dlgdetail.cpp
 
 HEADERS  += dlgmain.h \
-    stockparser.h
+    stockparser.h \
+    dlgaddstock.h \
+    dlgdetail.h
 
-FORMS    += dlgmain.ui
+FORMS    += dlgmain.ui \
+    dlgaddstock.ui \
+    dlgdetail.ui
 
 RESOURCES += \
     stockshow.qrc

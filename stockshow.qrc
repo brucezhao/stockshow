@@ -4,5 +4,6 @@
         <file>image/add_list.png</file>
         <file>image/Delete.png</file>
         <file>image/setting.png</file>
+        <file>image/bubble.png</file>
     </qresource>
 </RCC>

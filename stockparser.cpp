@@ -50,6 +50,9 @@ int StockParser::stringToVector(const string & str, char split, vector<string> &
             v.push_back(pHeader);
             *p = split;
             pHeader = p + 1;
+            while (*pHeader == ' ' || *pHeader == '\n') {
+                pHeader ++;
+            }
         }
     }
     if (*pHeader != '\0') {
@@ -66,23 +69,32 @@ bool StockParser::parseStock(const string &str, Stock &stock)
     stock.code = "";
     stock.datas.clear();
 
-    string sTemp = trim(str);
-    int iLen = sTemp.length();
+    int iLen = str.length();
     if (iLen < 23) {
         //起码是：var hq_str_sh601766=""
         return false;
     }
-    if (sTemp.substr(0, 3) != "var") {
+    if (str.substr(0, 3) != "var") {
         //格式不正确
         return false;
     }
 
-    stock.code = sTemp.substr(11, 8);
-    sTemp = sTemp.substr(21, iLen - 22);
+    stock.code = str.substr(11, 8);
+    string sData = str.substr(21, iLen - 22);
 
-    if (stringToVector(sTemp,',', stock.datas) != C_FIELD_COUNT) {
+    if (stringToVector(sData,',', stock.datas) != C_FIELD_COUNT) {
         //字段少了，返回错误
         return false;
+    }
+
+    //计算涨幅
+    float fLastClose = std::atof(stock.datas[INDEX_LASTCLOSE].c_str());
+    float fPrice = std::atof(stock.datas[INDEX_PRICE].c_str());
+    if (fLastClose == 0) {
+        stock.increase = 0;
+    }
+    else {
+        stock.increase = (fPrice - fLastClose)* 100/fLastClose;
     }
 
     return true;
