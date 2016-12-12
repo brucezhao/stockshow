@@ -96,6 +96,7 @@ bool StockParser::parseStock(const string &str, Stock &stock)
     else {
         stock.increase = (fPrice - fLastClose)* 100/fLastClose;
     }
+    stock.lastClose = fLastClose;
 
     return true;
 }

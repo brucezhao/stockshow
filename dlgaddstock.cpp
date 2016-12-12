@@ -37,7 +37,8 @@ bool DlgAddStock::eventFilter(QObject *object, QEvent *event)
         }
     }
 
-    return QDialog::eventFilter(object, event);
+    return false;
+    //return QDialog::eventFilter(object, event);
 }
 
 void DlgAddStock::showEvent(QShowEvent *)

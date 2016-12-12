@@ -55,6 +55,7 @@ protected:
     void mousePressEvent(QMouseEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
+
 private slots:
     //添加股票事件
     void onAddStock(QString code);

@@ -127,19 +127,23 @@ void DlgMain::setUi()
     if (iCount < 2) return;
 
     const Stock * pStock = NULL;
-    QString sText;
+    QString sText, sPrice;
     QBrush brush;
 
     //取大盘
     pStock = m_stockParser.stocks(0);
     sText.setNum(pStock->increase, 'f', 2);
-    sText = QString("%1% %2").arg(sText).arg(pStock->datas[INDEX_PRICE].c_str());
+    sPrice = pStock->datas[INDEX_PRICE].c_str();
+    sPrice.resize(sPrice.length() - 2);
+    sText = QString("%1  %2%").arg(sPrice).arg(sText);
     ui->lbSHIndex->setText(sText);
     ui->lbSHIndex->setStyleSheet(getStyleSheet(pStock->increase));
 
     pStock = m_stockParser.stocks(1);
     sText.setNum(pStock->increase, 'f', 2);
-    sText = QString("%1% %2").arg(sText).arg(pStock->datas[INDEX_PRICE].c_str());
+    sPrice = pStock->datas[INDEX_PRICE].c_str();
+    sPrice.resize(sPrice.length() - 1);
+    sText = QString("%1  %2%").arg(sPrice).arg(sText);
     ui->lbSZIndex->setText(sText);
     ui->lbSZIndex->setStyleSheet(getStyleSheet(pStock->increase));
 
@@ -149,7 +153,7 @@ void DlgMain::setUi()
         if (pStock->increase > 0)
             brush = QBrush(QColor(Qt::red));
         else if (pStock->increase < 0)
-            brush = QBrush(QColor(Qt::green));
+            brush = QBrush(QColor(85,170,0));
         else
             brush = QBrush(QColor(Qt::black));
 
@@ -161,6 +165,7 @@ void DlgMain::setUi()
         pItemRate->setForeground(brush);
         pItemRate->setTextAlignment(Qt::AlignRight);
         sText = pStock->datas[INDEX_PRICE].c_str();
+        sText.resize(sText.length() - 1);
         QTableWidgetItem * pItemPrice = new QTableWidgetItem(sText);
         pItemPrice->setForeground(brush);
         pItemPrice->setTextAlignment(Qt::AlignRight);
@@ -173,7 +178,6 @@ void DlgMain::setUi()
     }
     //调整窗口高度
     int iHeight = ui->wTitleBar->height() + 10 + ui->wStatusbar->height() + 10 + ui->twStock->rowCount() * ui->twStock->rowHeight(0) + 4;
-    //qDebug() << this->height() << iHeight;
     this->setGeometry(this->x(), this->y(), this->width(), iHeight);
 }
 
@@ -298,5 +302,10 @@ void DlgMain::on_twStock_doubleClicked(const QModelIndex &index)
     if (m_dlgDetail == NULL) {
         m_dlgDetail = new DlgDetail();
     }
+    m_dlgDetail->setStock(m_stockParser.stocks(index.row() + 2));
+    //确定dlg的位置
+    int x = this->x() - m_dlgDetail->width() - 1;
+    if (x < 0) x = this->x() + this->width() + 1;
+    m_dlgDetail->setGeometry(x, this->y(), m_dlgDetail->width(), m_dlgDetail->height());
     m_dlgDetail->show();
 }
