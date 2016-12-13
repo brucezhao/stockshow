@@ -4,6 +4,10 @@
         <file>image/add_list.png</file>
         <file>image/Delete.png</file>
         <file>image/setting.png</file>
-        <file>image/bubble.png</file>
+        <file>image/icon_24.png</file>
+        <file>image/exit_24.png</file>
+        <file>image/about_24.png</file>
+        <file>image/show_24.png</file>
+        <file>image/icon_64.png</file>
     </qresource>
 </RCC>

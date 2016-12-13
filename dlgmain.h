@@ -12,6 +12,9 @@
 #include <QFile>
 #include <QVector>
 #include <QTextCodec>
+#include <QSystemTrayIcon>
+#include <QMenu>
+#include <QAction>
 
 #include "stockparser.h"
 #include "dlgaddstock.h"
@@ -41,6 +44,11 @@ private:
     QNetworkAccessManager * m_manager;
     QTimer * m_timer;
     QTextCodec * m_codec;
+    QSystemTrayIcon * m_trayIcon;
+    QMenu * m_trayIconMenu;
+    QAction * m_actionShow;
+    QAction * m_actionAbout;
+    QAction * m_actionQuit;
 
     //读写配置文件
     void loadConfig();
@@ -55,16 +63,23 @@ protected:
     void mousePressEvent(QMouseEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
-
+    void closeEvent(QCloseEvent *);
+    //按ESC键会触发此事件
+    void reject();
 private slots:
     //添加股票事件
     void onAddStock(QString code);
     void onTimeout();
     void onManagerFinish(QNetworkReply * reply);
+    void OnSystemTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+    void onShowTriggered(bool);
+    void onAboutTriggered(bool);
+    void onQuitTriggered(bool);
 
     void on_tbAdd_clicked();
     void on_tbDelete_clicked();
     void on_twStock_doubleClicked(const QModelIndex &index);
+    void on_tbClose_clicked();
 };
 
 #endif // DLGMAIN_H

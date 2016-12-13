@@ -18,6 +18,16 @@
   <property name="windowTitle">
    <string>行情秀</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="stockshow.qrc">
+    <normaloff>:/image/icon_64.png</normaloff>:/image/icon_64.png</iconset>
+  </property>
+  <property name="toolTip">
+   <string/>
+  </property>
+  <property name="statusTip">
+   <string>行情秀</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
     <number>0</number>
@@ -57,41 +67,6 @@
         <property name="bottomMargin">
          <number>5</number>
         </property>
-        <item>
-         <widget class="QToolButton" name="tbOption">
-          <property name="maximumSize">
-           <size>
-            <width>24</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>设置</string>
-          </property>
-          <property name="toolTipDuration">
-           <number>0</number>
-          </property>
-          <property name="statusTip">
-           <string/>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="icon">
-           <iconset resource="stockshow.qrc">
-            <normaloff>:/image/setting.png</normaloff>:/image/setting.png</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>24</width>
-            <height>16</height>
-           </size>
-          </property>
-          <property name="autoRaise">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QToolButton" name="tbAdd">
           <property name="toolTip">
@@ -342,22 +317,5 @@ selection-color: rgb(0, 0, 0);</string>
  <resources>
   <include location="stockshow.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>tbClose</sender>
-   <signal>clicked()</signal>
-   <receiver>DlgMain</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>582</x>
-     <y>17</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>300</x>
-     <y>156</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

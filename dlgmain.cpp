@@ -18,7 +18,7 @@ DlgMain::DlgMain(QWidget *parent) :
     ui->setupUi(this);
 
     //设置成无边框对话框
-    this->setWindowFlags(Qt::FramelessWindowHint|Qt::WindowSystemMenuHint | Qt::WindowStaysOnTopHint);
+    this->setWindowFlags(Qt::FramelessWindowHint| Qt::WindowStaysOnTopHint);    //Qt::WindowSystemMenuHint |
     m_mousePressed = false;
     m_manager = new QNetworkAccessManager(this);
     m_dlgAddStock = NULL;
@@ -35,13 +35,39 @@ DlgMain::DlgMain(QWidget *parent) :
     connect(m_timer, &QTimer::timeout, this, &DlgMain::onTimeout);
     m_timer->start();
 
+    //设置trayicon
+    m_trayIconMenu = new QMenu(this);
+    m_actionShow = m_trayIconMenu->addAction("显示");
+    m_actionShow->setFont(this->font());
+    m_actionShow->setIcon(QIcon(":/image/show_24.png"));
+    connect(m_actionShow, &QAction::triggered, this, &DlgMain::onShowTriggered);
+    m_actionAbout =  m_trayIconMenu->addAction("关于");
+    m_actionAbout->setFont(this->font());
+    m_actionAbout->setIcon(QIcon(":/image/about_24.png"));
+    connect(m_actionAbout, &QAction::triggered, this, &DlgMain::onAboutTriggered);
+    m_trayIconMenu->addSeparator();
+    m_actionQuit = m_trayIconMenu->addAction("退出");
+    m_actionQuit->setFont(this->font());
+    m_actionQuit->setIcon(QIcon(":/image/exit_24.png"));
+    connect(m_actionQuit, &QAction::triggered, this, &DlgMain::onQuitTriggered);
+
+    QIcon icon(":/image/icon_24.png");
+    m_trayIcon = new QSystemTrayIcon(icon, this);
+    connect(m_trayIcon, &QSystemTrayIcon::activated, this, &DlgMain::OnSystemTrayIconActivated);
+    m_trayIcon->setToolTip("股票秀");
+    m_trayIcon->setContextMenu(m_trayIconMenu);
+    m_trayIcon->show();
+
     getStockContent();
-}
+
+ }
 
 DlgMain::~DlgMain()
 {
     saveConfig();
 
+    delete m_trayIcon;
+    delete m_trayIconMenu;
     if (m_dlgAddStock != NULL)
         delete m_dlgAddStock;
     if (m_dlgDetail != NULL)
@@ -237,6 +263,19 @@ void DlgMain::mouseReleaseEvent(QMouseEvent *event)
     QDialog::mouseReleaseEvent(event);
 }
 
+void DlgMain::closeEvent(QCloseEvent *)
+{
+    qDebug() << "closeEvent";
+}
+
+void DlgMain::reject()
+{
+    if (m_dlgDetail->isVisible())
+        m_dlgDetail->hide();
+    else
+        this->hide();
+}
+
 void DlgMain::onAddStock(QString code)
 {
     if (m_stockCodes.contains(code)) {
@@ -265,6 +304,31 @@ void DlgMain::onManagerFinish(QNetworkReply *reply)
             }
         }
     }
+}
+
+void DlgMain::OnSystemTrayIconActivated(QSystemTrayIcon::ActivationReason reason)
+{
+    //qDebug() << reason;
+    switch (reason) {
+    case QSystemTrayIcon::Trigger :
+        this->setVisible(!this->isVisible());
+        break;
+    }
+}
+
+void DlgMain::onShowTriggered(bool)
+{
+    show();
+}
+
+void DlgMain::onAboutTriggered(bool)
+{
+    QMessageBox::about(this, "股票秀", "作者：山贼(赵亦平)\n日期：2016年12月13日\n邮箱：brucezhao@163.com");
+}
+
+void DlgMain::onQuitTriggered(bool)
+{
+    close();
 }
 
 void DlgMain::on_tbAdd_clicked()
@@ -308,4 +372,10 @@ void DlgMain::on_twStock_doubleClicked(const QModelIndex &index)
     if (x < 0) x = this->x() + this->width() + 1;
     m_dlgDetail->setGeometry(x, this->y(), m_dlgDetail->width(), m_dlgDetail->height());
     m_dlgDetail->show();
+}
+
+
+void DlgMain::on_tbClose_clicked()
+{
+    this->hide();
 }

@@ -2,6 +2,7 @@
 #define DLGADDSTOCK_H
 
 #include <QDialog>
+#include <QPixmap>
 
 namespace Ui {
 class DlgAddStock;
@@ -20,7 +21,7 @@ signals:
     void addStock(QString code);
 private:
     Ui::DlgAddStock *ui;
-
+    QPixmap m_pixmap;
 protected:
     bool eventFilter(QObject * object, QEvent * event);
     void showEvent(QShowEvent *);

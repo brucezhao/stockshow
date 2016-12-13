@@ -11,6 +11,10 @@ DlgAddStock::DlgAddStock(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowFlags(Qt::Popup);
     ui->editCode->installEventFilter(this);
+
+    m_pixmap.load(":/image/frame.png");
+
+    //this->setMask(m_pixmap.mask());
 }
 
 DlgAddStock::~DlgAddStock()
