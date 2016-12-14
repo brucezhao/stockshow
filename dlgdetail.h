@@ -50,6 +50,7 @@ private:
     void setItem(QTableWidgetItem *item, float value1, float value2 = 0);
 private slots:
     void onManagerFinished(QNetworkReply * reply);
+
 protected:
 
 };

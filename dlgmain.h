@@ -63,7 +63,6 @@ protected:
     void mousePressEvent(QMouseEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
-    void closeEvent(QCloseEvent *);
     //按ESC键会触发此事件
     void reject();
 private slots:

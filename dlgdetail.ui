@@ -194,13 +194,23 @@
         <property name="font">
          <font>
           <family>Microsoft YaHei</family>
+          <pointsize>9</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
          </font>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">selection-background-color: rgb(241, 241, 241);
+selection-color: rgb(0, 0, 0);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
         </property>
         <property name="selectionMode">
          <enum>QAbstractItemView::NoSelection</enum>
@@ -279,9 +289,6 @@
          <property name="text">
           <string>卖5</string>
          </property>
-         <property name="flags">
-          <set>ItemIsEnabled</set>
-         </property>
         </item>
         <item row="0" column="1">
          <property name="text">
@@ -290,9 +297,6 @@
          <property name="textAlignment">
           <set>AlignTrailing|AlignVCenter</set>
          </property>
-         <property name="flags">
-          <set>ItemIsEnabled</set>
-         </property>
         </item>
         <item row="0" column="2">
          <property name="text">
@@ -300,9 +304,6 @@
          </property>
          <property name="textAlignment">
           <set>AlignTrailing|AlignVCenter</set>
-         </property>
-         <property name="flags">
-          <set>ItemIsEnabled</set>
          </property>
         </item>
         <item row="1" column="0">
@@ -407,16 +408,30 @@
         </property>
         <property name="font">
          <font>
+          <family>Microsoft YaHei</family>
           <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">selection-background-color: rgb(241, 241, 241);
+selection-color: rgb(0, 0, 0);</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
         <property name="selectionMode">
          <enum>QAbstractItemView::NoSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
         </property>
         <property name="showGrid">
          <bool>true</bool>
@@ -608,13 +623,24 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>9</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
+          <family>Microsoft YaHei</family>
          </font>
+        </property>
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">selection-background-color: rgb(241, 241, 241);
+selection-color: rgb(0, 0, 0);</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::NoSelection</enum>
         </property>
         <property name="showGrid">
          <bool>true</bool>

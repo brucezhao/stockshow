@@ -126,9 +126,17 @@ void DlgMain::saveConfig()
     jsonPos.insert("height", this->height());
     jsonConfig.insert("position", jsonPos);
 
-    //用m_stockParser而不是m_stockCodes，是因为m_stockCodes中可能包含了不正确的股票代码
-    for (size_t i = 2 ; i < m_stockParser.count(); i++) {
-        jsonCodes.append(m_stockParser.stocks(i)->code.c_str());
+    if (m_stockParser.count() > 2) {
+        //用m_stockParser而不是m_stockCodes，是因为m_stockCodes中可能包含了不正确的股票代码
+        for (size_t i = 2 ; i < m_stockParser.count(); i++) {
+            jsonCodes.append(m_stockParser.stocks(i)->code.c_str());
+        }
+    }
+    else {
+        //如果stockParser没有股票，则以m_stockCodes里的为准，这是因为如果没有网络连接，导致m_stockParser为空
+        for (int i = 0; i < m_stockCodes.count(); i++) {
+            jsonCodes.append(m_stockCodes.at(i));
+        }
     }
     jsonConfig.insert("codes", jsonCodes);
 
@@ -261,11 +269,6 @@ void DlgMain::mouseReleaseEvent(QMouseEvent *event)
 {
     m_mousePressed = false;
     QDialog::mouseReleaseEvent(event);
-}
-
-void DlgMain::closeEvent(QCloseEvent *)
-{
-    qDebug() << "closeEvent";
 }
 
 void DlgMain::reject()

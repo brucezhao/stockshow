@@ -158,6 +158,9 @@
      </item>
      <item>
       <widget class="QTableWidget" name="twStock">
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
        <property name="styleSheet">
         <string notr="true">selection-background-color: rgb(241, 241, 241);
 selection-color: rgb(0, 0, 0);</string>
