@@ -40,11 +40,11 @@ DlgDetail::~DlgDetail()
 
 void DlgDetail::setStock(const Stock *stock)
 {
-    if (stock->code != m_stock.code) {
+    //if (stock->code != m_stock.code) {
         m_stock = *stock;
         setUi();
         getImages(m_stock.code.substr(2).c_str());
-    }
+    //}
 }
 
 void DlgDetail::setUi()

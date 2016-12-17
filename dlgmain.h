@@ -49,6 +49,7 @@ private:
     QAction * m_actionShow;
     QAction * m_actionAbout;
     QAction * m_actionQuit;
+    std::string m_currentStock;
 
     //读写配置文件
     void loadConfig();

@@ -304,6 +304,14 @@ void DlgMain::onManagerFinish(QNetworkReply *reply)
         if (!sContent.isEmpty()) {
             if (m_stockParser.parse(sContent.toStdString())) {
                 setUi();
+
+                if (m_dlgDetail && m_dlgDetail->isVisible()) {
+                    for (size_t i = 0; i < m_stockParser.count(); i++) {
+                        if (m_currentStock == m_stockParser.stocks(i)->code) {
+                            m_dlgDetail->setStock(m_stockParser.stocks(i));
+                        }
+                    }
+                }
             }
         }
     }
@@ -369,7 +377,9 @@ void DlgMain::on_twStock_doubleClicked(const QModelIndex &index)
     if (m_dlgDetail == NULL) {
         m_dlgDetail = new DlgDetail();
     }
-    m_dlgDetail->setStock(m_stockParser.stocks(index.row() + 2));
+    const Stock * pStock = m_stockParser.stocks(index.row() + 2);
+    m_currentStock = pStock->code;
+    m_dlgDetail->setStock(pStock);
     //确定dlg的位置
     int x = this->x() - m_dlgDetail->width() - 1;
     if (x < 0) x = this->x() + this->width() + 1;
