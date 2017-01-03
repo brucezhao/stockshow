@@ -194,14 +194,23 @@ void DlgMain::setUi()
         QTableWidgetItem * pItemCodeEx = new QTableWidgetItem(pStock->code.c_str());
         QTableWidgetItem * pItemCode = new QTableWidgetItem(pStock->code.substr(2).c_str());
         QTableWidgetItem * pItemName = new QTableWidgetItem(pStock->datas[INDEX_NAME].c_str());
-        sText.setNum(pStock->increase, 'f', 2);
-        QTableWidgetItem * pItemRate = new QTableWidgetItem(sText + "%");
-        pItemRate->setForeground(brush);
-        pItemRate->setTextAlignment(Qt::AlignRight);
+        QTableWidgetItem * pItemRate = NULL;
+        QTableWidgetItem * pItemPrice = NULL;
         sText = pStock->datas[INDEX_PRICE].c_str();
-        sText.resize(sText.length() - 1);
-        QTableWidgetItem * pItemPrice = new QTableWidgetItem(sText);
-        pItemPrice->setForeground(brush);
+        if (sText == "0.000") {
+            pItemRate = new QTableWidgetItem("-.--");
+            pItemPrice = new QTableWidgetItem("-.--");
+        }
+        else {
+            sText.resize(sText.length() - 1);
+            pItemPrice = new QTableWidgetItem(sText);
+            pItemPrice->setForeground(brush);
+
+            sText.setNum(pStock->increase, 'f', 2);
+            pItemRate = new QTableWidgetItem(sText + "%");
+            pItemRate->setForeground(brush);
+        }
+        pItemRate->setTextAlignment(Qt::AlignRight);
         pItemPrice->setTextAlignment(Qt::AlignRight);
 
         ui->twStock->setItem(i - 2, 0, pItemCodeEx);
