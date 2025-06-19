@@ -11,7 +11,7 @@
 #include <QJsonObject>
 #include <QFile>
 #include <QVector>
-#include <QTextCodec>
+// #include <QTextCodec>
 #include <QSystemTrayIcon>
 #include <QMenu>
 #include <QAction>
@@ -43,7 +43,7 @@ private:
     StockParser m_stockParser;
     QNetworkAccessManager * m_manager;
     QTimer * m_timer;
-    QTextCodec * m_codec;
+    // QTextCodec * m_codec;
     QSystemTrayIcon * m_trayIcon;
     QMenu * m_trayIconMenu;
     QAction * m_actionShow;

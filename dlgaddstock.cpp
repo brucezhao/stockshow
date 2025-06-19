@@ -29,7 +29,8 @@ bool DlgAddStock::eventFilter(QObject *object, QEvent *event)
 //            close();
         else if (event->type() == QEvent::KeyPress) {
             QKeyEvent * keyEvent = dynamic_cast<QKeyEvent *>(event);
-            if (keyEvent->key() == Qt::Key_Return) {
+            // qDebug() << keyEvent->key();
+            if (keyEvent->key() == Qt::Key_Return || keyEvent->key() == Qt::Key_Enter)  {
                 if (ui->editCode->text().length() != 8) {
                     QMessageBox::warning(this, "提示信息", "股票代码格式不正确，示例：sh000001或者sz399001");
                 }

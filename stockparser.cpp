@@ -1,7 +1,8 @@
 #include <cstring>
 #include "stockparser.h"
 
-const int C_FIELD_COUNT = 33;
+// 字段数量
+const int C_FIELD_COUNT = 38;
 
 StockParser::StockParser()
 {
@@ -70,33 +71,27 @@ bool StockParser::parseStock(const string &str, Stock &stock)
     stock.datas.clear();
 
     int iLen = str.length();
-    if (iLen < 23) {
-        //起码是：var hq_str_sh601766=""
+    if (iLen < 11) {
+        //起码是：v_sz300599=
         return false;
     }
-    if (str.substr(0, 3) != "var") {
+    if (str.substr(0, 2) != "v_") {
         //格式不正确
         return false;
     }
 
-    stock.code = str.substr(11, 8);
-    string sData = str.substr(21, iLen - 22);
-
-    if (stringToVector(sData,',', stock.datas) != C_FIELD_COUNT) {
+    if (stringToVector(str,'~', stock.datas) < C_FIELD_COUNT) {
         //字段少了，返回错误
         return false;
     }
 
+    // 从内容头部取加了sh/sz的代码
+    string sCode = stock.datas[INDEX_HEADER];
+
+    stock.code = sCode.substr(2, 8); // stock.datas[INDEX_CODE];
     //计算涨幅
-    float fLastClose = std::atof(stock.datas[INDEX_LASTCLOSE].c_str());
-    float fPrice = std::atof(stock.datas[INDEX_PRICE].c_str());
-    if (fLastClose == 0) {
-        stock.increase = 0;
-    }
-    else {
-        stock.increase = (fPrice - fLastClose)* 100/fLastClose;
-    }
-    stock.lastClose = fLastClose;
+    stock.increase = std::atof(stock.datas[INDEX_INCREASE_RATE].c_str());
+    stock.lastClose = std::atof(stock.datas[INDEX_LASTCLOSE].c_str());;
 
     return true;
 }

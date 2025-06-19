@@ -8,9 +8,10 @@
 
 #include "dlgdetail.h"
 #include "ui_dlgdetail.h"
+#include "stockurls.h"
 
-const QString C_URLREALTIME = "http://img.gtimg.cn/images/hq_parts/hushen/stocks/%1.png?%2";
-const QString C_URLDAY = "http://img.gtimg.cn/images/kline/hushen/stocks/day/%1.png?%2";
+// const QString C_URLREALTIME = "http://img.gtimg.cn/images/hq_parts/hushen/stocks/%1.png?%2";
+// const QString C_URLDAY = "http://img.gtimg.cn/images/kline/hushen/stocks/day/%1.png?%2";
 
 DlgDetail::DlgDetail(QWidget *parent) :
     QDialog(parent),
@@ -40,11 +41,9 @@ DlgDetail::~DlgDetail()
 
 void DlgDetail::setStock(const Stock *stock)
 {
-    //if (stock->code != m_stock.code) {
-        m_stock = *stock;
-        setUi();
-        getImages(m_stock.code.substr(2).c_str());
-    //}
+    m_stock = *stock;
+    setUi();
+    getImages(m_stock.code.c_str());
 }
 
 void DlgDetail::setUi()
@@ -86,21 +85,21 @@ void DlgDetail::setUi()
     //其它信息
     setItem(ui->twInfo->item(0,1), INDEX_PRICE, true);
     setItem(ui->twInfo->item(0, 3), INDEX_OPEN, true);
-    setItem(ui->twInfo->item(1, 1), INDEX_TOP, true);
+    setItem(ui->twInfo->item(1, 1), INDEX_HIGHEST, true);
     setItem(ui->twInfo->item(1, 3), INDEX_LOWEST, true);
 
     QString sText;
     float f;
 
     //金额
-    sText = m_stock.datas[INDEX_TOTALMONDY].c_str();
+    sText = m_stock.datas[INDEX_MONEY].c_str();
     f = sText.toFloat();
     f /= 100000000;
     sText.setNum(f, 'f', 2);
     sText += "亿";
     ui->twInfo->item(2, 3)->setText(sText);
     //总手
-    sText = m_stock.datas[INDEX_TOTALCOUNT].c_str();
+    sText = m_stock.datas[INDEX_COUNT].c_str();
     f = sText.toFloat();
     f /= 1000000;
     sText.setNum(f, 'f', 2);
@@ -121,7 +120,7 @@ void DlgDetail::setUi()
     setItem(ui->twInfo->item(4, 3), f, m_stock.lastClose);
 }
 
-void DlgDetail::getImages(QString code) //DownloadType dt)
+void DlgDetail::getImages(QString code)
 {
     QString sUrl;
 
@@ -130,12 +129,11 @@ void DlgDetail::getImages(QString code) //DownloadType dt)
 
     if ((it == m_pixmapRealtimes.end()) || (it->lastTime.elapsed() > C_INTERVAL)) {
         //如果没有历史纪录，或者历史纪录已经超时，则重新下载
-        //分时图：http://img.gtimg.cn/images/hq_parts/hushen/stocks/600380.png?0.995922569739595
-        sUrl = QString(C_URLREALTIME).arg(code).arg(QDateTime::currentMSecsSinceEpoch());
+        sUrl = QString(C_URL_GIF_MIN).arg(code).arg(QDateTime::currentMSecsSinceEpoch());
 
         QUrl urlRealtime(sUrl);
         QNetworkRequest requestRealtime(urlRealtime);
-        requestRealtime.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+        // requestRealtime.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
         QNetworkReply * replyRealtime = m_manager->get(requestRealtime);
         replyRealtime->setProperty("id", "realtime");
         replyRealtime->setProperty("code", code);
@@ -147,18 +145,15 @@ void DlgDetail::getImages(QString code) //DownloadType dt)
     //判断日K图是否存在历史纪录
     QMap<QString, QPixmap>::iterator itDay = m_pixmapDays.find(code);
     if (itDay == m_pixmapDays.end()) {
-        //日K图：http://img.gtimg.cn/images/kline/hushen/stocks/day/600380.png?0.7182225310801492
-        sUrl = QString(C_URLDAY).arg(code).arg(QDateTime::currentMSecsSinceEpoch());
+        sUrl = QString(C_URL_GIF_DAY).arg(code).arg(QDateTime::currentMSecsSinceEpoch());
 
         QUrl urlDay(sUrl);
         QNetworkRequest requestDay(urlDay);
-        requestDay.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
         QNetworkReply * replyDay = m_manager->get(requestDay);
         replyDay->setProperty("id", "day");
         replyDay->setProperty("code", code);
     }
     else {
-//        qDebug() << "无需重新下载日K图";
         m_sceneDay.addPixmap(*itDay);
     }
 }

@@ -8,7 +8,8 @@
 #include <QTableWidgetItem>
 #include <QMap>
 #include <QPixmap>
-#include <QTime>
+// #include <QTime>
+#include <QElapsedTimer>
 
 #include "stockparser.h"
 
@@ -21,7 +22,7 @@ const int C_INTERVAL = 60000;
 
 struct PixmapData {
     QPixmap pixmapRealtime;
-    QTime lastTime;
+    QElapsedTimer lastTime;
 };
 //下载类型，全部下载、只下载分时图
 //enum DownloadType {dtAll, dtRealtime};

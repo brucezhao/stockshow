@@ -6,9 +6,12 @@
 #include <QJsonArray>
 #include <QUrl>
 #include <QNetworkRequest>
+#include <QStringConverter>
 
 #include "dlgmain.h"
 #include "ui_dlgmain.h"
+#include "stockurls.h"
+#include "encode.h"
 
 
 DlgMain::DlgMain(QWidget *parent) :
@@ -25,11 +28,10 @@ DlgMain::DlgMain(QWidget *parent) :
     m_dlgDetail = NULL;
 
     //第0列为隐藏列
-    ui->twStock->setColumnWidth(0, 0);
+    // ui->twStock->setColumnWidth(0, 1);
     loadConfig();
     //setUi();
 
-    m_codec = QTextCodec::codecForName("gb18030");
     m_timer = new QTimer(this);
     m_timer->setInterval(5000);
     connect(m_timer, &QTimer::timeout, this, &DlgMain::onTimeout);
@@ -96,7 +98,7 @@ void DlgMain::loadConfig()
                     QJsonObject jsonPos = jsonConfig.take("position").toObject();
                     int x = jsonPos.take("x").toInt();
                     int y = jsonPos.take("y").toInt();
-                    int w = jsonPos.take("width").toInt();
+                    int w =  jsonPos.take("width").toInt();
                     int h = jsonPos.take("heigth").toInt();
                     this->setGeometry(x, y, w, h);
                 }
@@ -156,6 +158,7 @@ void DlgMain::setUi()
     int iCount = m_stockParser.count();
     ui->twStock->clearContents();
     ui->twStock->setRowCount(iCount - 2);   //去掉指数的两条记录
+    // ui->twStock->setColumnWidth(0, 0);
 
     //最少应该取回两条大盘指数
     if (iCount < 2) return;
@@ -168,7 +171,7 @@ void DlgMain::setUi()
     pStock = m_stockParser.stocks(0);
     sText.setNum(pStock->increase, 'f', 2);
     sPrice = pStock->datas[INDEX_PRICE].c_str();
-    sPrice.resize(sPrice.length() - 2);
+    // sPrice.resize(sPrice.length() - 2);
     sText = QString("%1  %2%").arg(sPrice).arg(sText);
     ui->lbSHIndex->setText(sText);
     ui->lbSHIndex->setStyleSheet(getStyleSheet(pStock->increase));
@@ -176,7 +179,7 @@ void DlgMain::setUi()
     pStock = m_stockParser.stocks(1);
     sText.setNum(pStock->increase, 'f', 2);
     sPrice = pStock->datas[INDEX_PRICE].c_str();
-    sPrice.resize(sPrice.length() - 1);
+    // sPrice.resize(sPrice.length() - 1);
     sText = QString("%1  %2%").arg(sPrice).arg(sText);
     ui->lbSZIndex->setText(sText);
     ui->lbSZIndex->setStyleSheet(getStyleSheet(pStock->increase));
@@ -191,8 +194,8 @@ void DlgMain::setUi()
         else
             brush = QBrush(QColor(Qt::black));
 
-        QTableWidgetItem * pItemCodeEx = new QTableWidgetItem(pStock->code.c_str());
-        QTableWidgetItem * pItemCode = new QTableWidgetItem(pStock->code.substr(2).c_str());
+        // QTableWidgetItem * pItemCodeEx = new QTableWidgetItem(pStock->code.c_str());
+        QTableWidgetItem * pItemCode = new QTableWidgetItem(pStock->datas[INDEX_CODE].c_str());
         QTableWidgetItem * pItemName = new QTableWidgetItem(pStock->datas[INDEX_NAME].c_str());
         QTableWidgetItem * pItemRate = NULL;
         QTableWidgetItem * pItemPrice = NULL;
@@ -213,27 +216,28 @@ void DlgMain::setUi()
         pItemRate->setTextAlignment(Qt::AlignRight);
         pItemPrice->setTextAlignment(Qt::AlignRight);
 
-        ui->twStock->setItem(i - 2, 0, pItemCodeEx);
-        ui->twStock->setItem(i - 2, 1, pItemCode);
-        ui->twStock->setItem(i - 2, 2, pItemName);
-        ui->twStock->setItem(i - 2, 3, pItemRate);
-        ui->twStock->setItem(i - 2, 4, pItemPrice);
+        // ui->twStock->setItem(i - 2, 0, pItemCodeEx);
+        ui->twStock->setItem(i - 2, 0, pItemCode);
+        ui->twStock->setItem(i - 2, 1, pItemName);
+        ui->twStock->setItem(i - 2, 2, pItemRate);
+        ui->twStock->setItem(i - 2, 3, pItemPrice);
     }
     //调整窗口高度
-    int iHeight = ui->wTitleBar->height() + 10 + ui->wStatusbar->height() + 10 + ui->twStock->rowCount() * ui->twStock->rowHeight(0) + 4;
+    int iHeight = ui->wTitleBar->height() + 10 + ui->wStatusbar->height() + 10 + ui->twStock->rowCount() * ui->twStock->rowHeight(0) + 8;
     this->setGeometry(this->x(), this->y(), this->width(), iHeight);
+    // this->setGeometry(this->x(), this->y(), 500, 300);
 }
 
 void DlgMain::getStockContent()
 {
-    //url:http://hq.sinajs.cn/list=sh600133
-    QString sUrl = "http://hq.sinajs.cn/list=sh000001,sz399001";
+    QString sCode = "sh000001,sz399001";
+    QString sUrl = QString(C_URL_REALTIME).arg(sCode);
     for (int i = 0 ; i < m_stockCodes.count(); i++) {
         sUrl += "," + m_stockCodes.at(i);
     }
     QUrl url(sUrl);
     QNetworkRequest request(url);
-    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
+    // request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
     connect(m_manager, &QNetworkAccessManager::finished, this, &DlgMain::onManagerFinish);
 
     m_manager->get(request);
@@ -256,7 +260,7 @@ void DlgMain::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
         m_mousePressed = true;
-        m_lastPos = event->globalPos(); - event->pos();
+        m_lastPos = event->globalPosition().toPoint() -  frameGeometry().topLeft();
     }
 
     QDialog::mousePressEvent(event);
@@ -265,10 +269,7 @@ void DlgMain::mousePressEvent(QMouseEvent *event)
 void DlgMain::mouseMoveEvent(QMouseEvent *event)
 {
     if (m_mousePressed) {
-        QPoint pos = event->globalPos();
-        QPoint newWindowPos = this->pos() + (pos - m_lastPos);
-        this->move(newWindowPos);
-        m_lastPos = pos;
+        move(event->globalPosition().toPoint() - m_lastPos);
     }
 
     QDialog::mouseMoveEvent(event);
@@ -295,7 +296,7 @@ void DlgMain::onAddStock(QString code)
     }
     else {
         m_stockCodes.push_back(code);
-        getStockContent();
+        // getStockContent();
     }
 }
 
@@ -309,7 +310,11 @@ void DlgMain::onManagerFinish(QNetworkReply *reply)
     if (reply->error() == QNetworkReply::NoError) {
         QByteArray bytes = reply->readAll();
         //网站内容是GB18030,要转换成Unicode
-        QString sContent = m_codec->toUnicode(bytes);
+        std::string gbkStr = std::string(bytes);
+        // std::wstring unicodeStr = ;
+        string utf8Str = Encode::Convert("GBK", "UTF-8", gbkStr);
+        QString sContent = QString::fromStdString(utf8Str);
+        qDebug() << sContent;
         if (!sContent.isEmpty()) {
             if (m_stockParser.parse(sContent.toStdString())) {
                 setUi();
@@ -323,6 +328,8 @@ void DlgMain::onManagerFinish(QNetworkReply *reply)
                 }
             }
         }
+    } else {
+        qDebug() << "reply error:" << reply->error();
     }
 }
 
@@ -348,6 +355,7 @@ void DlgMain::onAboutTriggered(bool)
 
 void DlgMain::onQuitTriggered(bool)
 {
+    saveConfig();
     close();
 }
 

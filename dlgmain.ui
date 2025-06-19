@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>300</width>
-    <height>155</height>
+    <width>332</width>
+    <height>187</height>
    </rect>
   </property>
   <property name="font">
@@ -118,7 +118,6 @@
           <property name="font">
            <font>
             <family>Microsoft YaHei</family>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -171,6 +170,15 @@ selection-color: rgb(0, 0, 0);</string>
        <property name="frameShadow">
         <enum>QFrame::Sunken</enum>
        </property>
+       <property name="verticalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QAbstractScrollArea::AdjustToContents</enum>
+       </property>
        <property name="editTriggers">
         <set>QAbstractItemView::NoEditTriggers</set>
        </property>
@@ -202,16 +210,11 @@ selection-color: rgb(0, 0, 0);</string>
         <bool>false</bool>
        </attribute>
        <attribute name="verticalHeaderDefaultSectionSize">
-        <number>20</number>
+        <number>24</number>
        </attribute>
        <attribute name="verticalHeaderHighlightSections">
         <bool>false</bool>
        </attribute>
-       <column>
-        <property name="text">
-         <string>code</string>
-        </property>
-       </column>
        <column>
         <property name="text">
          <string>股票代码</string>
@@ -262,6 +265,7 @@ selection-color: rgb(0, 0, 0);</string>
           </property>
           <property name="font">
            <font>
+            <family>Microsoft YaHei</family>
             <pointsize>8</pointsize>
            </font>
           </property>
@@ -277,6 +281,7 @@ selection-color: rgb(0, 0, 0);</string>
           </property>
           <property name="font">
            <font>
+            <family>Microsoft YaHei</family>
             <pointsize>8</pointsize>
            </font>
           </property>
@@ -289,11 +294,12 @@ selection-color: rgb(0, 0, 0);</string>
          <widget class="QLabel" name="label_2">
           <property name="font">
            <font>
+            <family>Microsoft YaHei</family>
             <pointsize>9</pointsize>
            </font>
           </property>
           <property name="text">
-           <string>沪指：</string>
+           <string>    沪指：</string>
           </property>
          </widget>
         </item>
@@ -301,6 +307,7 @@ selection-color: rgb(0, 0, 0);</string>
          <widget class="QLabel" name="label_3">
           <property name="font">
            <font>
+            <family>Microsoft YaHei</family>
             <pointsize>9</pointsize>
            </font>
           </property>

@@ -7,14 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>739</width>
-    <height>366</height>
+    <height>373</height>
    </rect>
   </property>
   <property name="font">
    <font>
     <family>Microsoft YaHei</family>
     <pointsize>9</pointsize>
-    <weight>50</weight>
     <bold>false</bold>
    </font>
   </property>
@@ -162,7 +161,6 @@
          <font>
           <family>Microsoft YaHei</family>
           <pointsize>14</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -195,7 +193,6 @@
          <font>
           <family>Microsoft YaHei</family>
           <pointsize>9</pointsize>
-          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -410,7 +407,6 @@ selection-color: rgb(0, 0, 0);</string>
          <font>
           <family>Microsoft YaHei</family>
           <pointsize>9</pointsize>
-          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -624,6 +620,8 @@ selection-color: rgb(0, 0, 0);</string>
         <property name="font">
          <font>
           <family>Microsoft YaHei</family>
+          <pointsize>11</pointsize>
+          <bold>false</bold>
          </font>
         </property>
         <property name="focusPolicy">
