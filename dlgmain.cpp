@@ -235,6 +235,7 @@ void DlgMain::getStockContent()
     for (int i = 0 ; i < m_stockCodes.count(); i++) {
         sUrl += "," + m_stockCodes.at(i);
     }
+    qDebug() << "-->getStockConeent:" << sUrl;
     QUrl url(sUrl);
     QNetworkRequest request(url);
     // request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, true);
@@ -314,7 +315,7 @@ void DlgMain::onManagerFinish(QNetworkReply *reply)
         // std::wstring unicodeStr = ;
         string utf8Str = Encode::Convert("GBK", "UTF-8", gbkStr);
         QString sContent = QString::fromStdString(utf8Str);
-        qDebug() << sContent;
+        qDebug() << "-->onManagerFinish:" << sContent;
         if (!sContent.isEmpty()) {
             if (m_stockParser.parse(sContent.toStdString())) {
                 setUi();
