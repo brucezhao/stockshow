@@ -139,6 +139,7 @@ void DlgDetail::getImages(QString code)
         replyRealtime->setProperty("code", code);
     }
     else {
+        m_sceneRealtime.clear();
         m_sceneRealtime.addPixmap(it->pixmapRealtime);
     }
 
@@ -154,6 +155,7 @@ void DlgDetail::getImages(QString code)
         replyDay->setProperty("code", code);
     }
     else {
+        m_sceneDay.clear();
         m_sceneDay.addPixmap(*itDay);
     }
 }
@@ -197,6 +199,7 @@ void DlgDetail::onManagerFinished(QNetworkReply *reply)
             QString sCode = reply->property("code").toString();
 
             if (sId == "realtime") {
+                m_sceneRealtime.clear();
                 m_sceneRealtime.addPixmap(pixmap);
 
                 QMap<QString, PixmapData>::iterator it = m_pixmapRealtimes.find(sCode);
@@ -212,6 +215,7 @@ void DlgDetail::onManagerFinished(QNetworkReply *reply)
                 }
             }
             else if (sId == "day") {
+                m_sceneDay.clear();
                 m_sceneDay.addPixmap(pixmap);
                 m_pixmapDays.insert(sCode, pixmap);
             }
